@@ -1,37 +1,25 @@
 'use strict';
 
-const filter = function(string, validHtml){
-    //return escape(string);
-    //string.html();
-    var words = string.split(' ');
-    var ignoreRegExpString = "<?/?";
-    validHtml.forEach(function(item, i, arr) {
-        ignoreRegExpString = ignoreRegExpString + item + '|';
-        });
-    ignoreRegExpString = ignoreRegExpString + '>?';
-    var ignoreRegExp = new RegExp(ignoreRegExpString);
-    var output = " ";
+var symbols = {
+'&': "&amp;",
+'<': "&lt;",
+'>': "&gt;",
+'"': '&quot;',
+"'": '&#39;',
+};
 
-    function escapeHtml(text) {
-        'use strict';
-        return text
-        .replace(/&/g, '&amp;')
-        .replace(/>/g, '&gt;')
-        .replace(/</g, '&lt;')
-        .replace(/"/g, '&quot;');
-    }
-    console.log(ignoreRegExpString);
-    words = words.map(function(item, i, arr){
-        if(ignoreRegExp.test(item)){
-            output = output + ' ' + item;
-            console.log(item);
-            
-            }
-        else{
-            output = output + ' ' + escapeHtml(item);
-            
-            }
-        });
-    
-    return output;
-    }
+function replacer(validTags, str) {
+if(symbols[str]) return symbols[str];
+
+for(let value of validTags) {
+if(str.indexOf(value) > 0) return str;
+}
+
+let rep = replacer.bind(null, validTags);
+return str.replace(/[<>"']/g, rep);
+}
+
+const filter = function(input, validTags){
+    let rep = replacer.bind(null, validTags);
+    return input.replace(/<[^>]+>|["'<>&]/g, rep);
+}
