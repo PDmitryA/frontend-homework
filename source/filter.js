@@ -11,7 +11,7 @@ const filter = (input, validTags) => {
         "'": '&#39;',
     };
 
-    function rep(str) {
+    const rep = (str) => {
         if(symbols[str]) {
             return symbols[str];
         }
