@@ -1,6 +1,8 @@
 'use strict';
 
-const filter = function(input, validTags){
+
+
+const filter = (input, validTags) => {
     let symbols = {
         '&': "&amp;",
         '<': "&lt;",
@@ -11,11 +13,11 @@ const filter = function(input, validTags){
 
     function rep(str) {
         if(symbols[str]) {
-        	return symbols[str];
+            return symbols[str];
         }
 
         for(let value of validTags) {
-        	if(str.indexOf(value) > 0) { 
+            if(str.indexOf(value) > 0) { 
                 return str;
             }
         }
