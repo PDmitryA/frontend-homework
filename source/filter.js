@@ -1,21 +1,23 @@
 'use strict';
 
-var symbols = {
-    '&': "&amp;",
-    '<': "&lt;",
-    '>': "&gt;",
-    '"': '&quot;',
-    "'": '&#39;',
-};
-
 const filter = function(input, validTags){
+    let symbols = {
+        '&': "&amp;",
+        '<': "&lt;",
+        '>': "&gt;",
+        '"': '&quot;',
+        "'": '&#39;',
+    };
+
     function rep(str) {
         if(symbols[str]) {
         	return symbols[str];
         }
 
         for(let value of validTags) {
-        	if(str.indexOf(value) > 0) return str;
+        	if(str.indexOf(value) > 0) { 
+                return str;
+            }
         }
 
         return str.replace(/[<>"']/g, rep);
